@@ -1,6 +1,6 @@
 HackerSpace Stuff
 =================
-(un)usefull stuff that should not be missing in any hackerspace
+(not so)useful stuff that should not be missing in any hackerspace
 
 __WARNING__: some scripts such as `slidechan` or `youcomment` are __NSFW__
 
