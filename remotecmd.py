@@ -8,6 +8,9 @@ JSON = '.remotecmd.json'
 class RemoteCmd(object):
     def __init__(self):
         self.bindings = {}
+        self.load()
+
+    def load(self):
         try:
             with open(JSON) as infile:
                 self.bindings = json.load(infile)
@@ -24,6 +27,7 @@ class RemoteCmd(object):
                 proc.kill()
                 key = l.split(' ')[2]
                 if key:
+                    self.load()
                     if key in self.bindings.keys():
                         cmd = self.bindings[key]
                         if cmd:
