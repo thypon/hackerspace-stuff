@@ -35,11 +35,11 @@ __[NSFW]__ Print random comments from an _adult entertainment_ site.
                     ||----w |
                     ||     ||
 
-SlideChan
----------
+FromChan
+--------
 __[NSFW]__ Show random images from 4chan.
 
-    ./slidechan.py [board1 board2 ...]
+    ./fromchan.py [image_time] [slide [time]] [board1 board2 ...]
 
 __WARNING:__ the default board is __/b/__
 
