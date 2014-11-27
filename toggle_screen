@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ $( DISPLAY=:0 xset dpms -q | tail -n 1 | cut -d  " " -f 5 ) == 'Off' ];
+	
+	then DISPLAY=:0 xset dpms force on;
+
+else DISPLAY=:0 xset dpms force off;
+
+fi
