@@ -6,6 +6,7 @@ from random import choice
 from sys import argv
 from subprocess import call
 from time import sleep
+from itertools import chain
 
 ERROR = "http://sys.4chan.org/image/error/404/rid.php"
 DISPLAY = "DISPLAY=:0 "  # X display for running via ssh
@@ -31,7 +32,16 @@ try:
         args = args[1:]
 except (ValueError, IndexError):
     pass
-BOARDS = args
+
+BOARDS = list(chain.from_iterable([
+    (
+        [b]*int(args[i+1])
+        if i<len(args)-1 and args[i+1].isdigit()
+        else b
+    )
+    for (i,b) in enumerate(args)
+    if not b.isdigit()
+]))
 ##
 
 

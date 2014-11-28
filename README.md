@@ -39,7 +39,7 @@ FromChan
 --------
 __[NSFW]__ Show random images from 4chan.
 
-    ./fromchan.py [image_time] [slide [time]] [board1 board2 ...]
+    ./fromchan.py [image_time] [slide [time]] [board1 [weight1] board2 [weight2] ...]
 
 __WARNING:__ the default board is __/b/__
 
