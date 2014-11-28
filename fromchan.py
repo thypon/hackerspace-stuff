@@ -37,7 +37,7 @@ BOARDS = list(chain.from_iterable([
     (
         [b]*int(args[i+1])
         if i<len(args)-1 and args[i+1].isdigit()
-        else b
+        else [b]
     )
     for (i,b) in enumerate(args)
     if not b.isdigit()
