@@ -13,7 +13,7 @@ MONITOR = ""  # "-g 1024x768+1024+0"  to run on secondary monitor
 
 TIME = 3.5  # showing time
 SLIDE = False
-SLIDE_TIME = 5
+SLIDE_TIME = 0
 
 ## argument parsing
 args = argv[1:]
@@ -48,13 +48,13 @@ def grep():
 
 
 def show(url):
-    call(DISPLAY + "feh -Z -x " + MONITOR + " -B black " + url + " -D " + str(TIME) + " --cycle-once", shell=True)
+    call(DISPLAY + "feh -Z -x " + MONITOR + " -B black " + url + " -D " + str(TIME) + " --cycle-once &", shell=True)
 
 try:
     if SLIDE:
         while True:
             show(grep())
-            sleep(SLIDE_TIME - TIME)
+            sleep(TIME + SLIDE_TIME)
     else:
         show(grep())
 except KeyboardInterrupt:
