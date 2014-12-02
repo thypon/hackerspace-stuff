@@ -89,7 +89,6 @@ while(i<l):
         probs[BOARDS[i]]=50
     i+=1
 
-print(probs)
 
 ##choosing a board wisely-randomly
 def notSoRandomBoard():
