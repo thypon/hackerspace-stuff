@@ -17,9 +17,12 @@ Turn __on__ and __off__ a light connected to parallel port.
 
 Depends on: `python-parallel`
 
-Before running:
+Before using, run as root:
 
-    # TODO: insert command to init port and add user to group
+    # modprobe ppdev
+    # modprobe -r lp
+
+and add the user to `lp` group
 
 YouComment
 ----------
