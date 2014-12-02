@@ -10,13 +10,12 @@ from random import choice, randint
 from sys import argv
 from subprocess import call
 from time import sleep
-from itertools import chain
 
 help_msg="usage:\n\t "+argv[0]+" <display_time> [slide <off_time>] <board1> <chance_to_show1(integer, default is 50 if omitted)> <board2> ...\n\tor:"+argv[0]+" help to show this message :)\n"
 
 ERROR = "http://sys.4chan.org/image/error/404/rid.php"
 DISPLAY = "DISPLAY=:0 "  # X display for running via ssh
-MONITOR = ""  # "-g 1024x768+1024+0"  to run on secondary monitor
+MONITOR = "-g 1024x768+1024+0"  # to run on secondary monitor
 
 TIME = 3.5  # showing time
 SLIDE = False
@@ -48,22 +47,6 @@ except (ValueError, IndexError):
 
 BOARDS=args
 
-##now showing unsafe stuff is less probable
-##probs=defaultdict(lambda:100,{
-##    "hc": 8,
-##    "d": 5,
-##    "s": 10,
-##    "u": 10,
-##    "y": 6,
-##    "hm": 6,
-##    "h": 8,
-##    "e": 10,
-##    "t": 8,
-##    "b": 30,
-##    "r": 8,
-##    "r9k": 10,
-##    "soc":9
-##})
 
 ##determine whether an argument is a number or not
 def is_number(str):
@@ -100,7 +83,6 @@ def notSoRandomBoard():
             return b
         else:
             index+=p
-    
 
 
 def grep():
