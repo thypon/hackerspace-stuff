@@ -1,12 +1,18 @@
 #!/usr/bin/env python3
 
+##show random images from 4chan
+##usage: fromchan_w <display_time> [slide <off_time>] <board1> <chance_to_show1(integer, default is 50 if omitted)> <board2> ...
+##or fromchan_w help to show help text
+
 from lxml.html import parse
 from urllib.request import urlopen
-from random import choice
+from random import choice, randint
 from sys import argv
 from subprocess import call
 from time import sleep
 from itertools import chain
+
+help_msg="usage:\n\t "+argv[0]+" <display_time> [slide <off_time>] <board1> <chance_to_show1(integer, default is 50 if omitted)> <board2> ...\n\tor:"+argv[0]+" help to show this message :)\n"
 
 ERROR = "http://sys.4chan.org/image/error/404/rid.php"
 DISPLAY = "DISPLAY=:0 "  # X display for running via ssh
@@ -18,12 +24,17 @@ SLIDE_TIME = 0
 
 ## argument parsing
 args = argv[1:]
+
+if args[0]=="help":
+    print(help_msg)
+    exit()
+
 try:
     TIME = int(args[0])
     args = args[1:]
 except (ValueError, IndexError):
     pass
-#
+##
 try:
     if args[0]=='slide':
         SLIDE = True
@@ -33,20 +44,68 @@ try:
 except (ValueError, IndexError):
     pass
 
-BOARDS = list(chain.from_iterable([
-    (
-        [b]*int(args[i+1])
-        if i<len(args)-1 and args[i+1].isdigit()
-        else [b]
-    )
-    for (i,b) in enumerate(args)
-    if not b.isdigit()
-]))
 ##
+
+BOARDS=args
+
+##now showing unsafe stuff is less probable
+##probs=defaultdict(lambda:100,{
+##    "hc": 8,
+##    "d": 5,
+##    "s": 10,
+##    "u": 10,
+##    "y": 6,
+##    "hm": 6,
+##    "h": 8,
+##    "e": 10,
+##    "t": 8,
+##    "b": 30,
+##    "r": 8,
+##    "r9k": 10,
+##    "soc":9
+##})
+
+##determine whether an argument is a number or not
+def is_number(str):
+    try:
+        int(str)
+        return True
+    except ValueError:
+        return False
+
+probs={}
+l=len(BOARDS)
+i=0
+
+##creating dictionary probs[<board>]=<chance>
+while(i<l):
+    try:
+        if (not is_number(BOARDS[i])) and is_number(BOARDS[i+1]):
+            probs[BOARDS[i]]=int(BOARDS[i+1])
+            i+=1
+        elif (not is_number(BOARDS[i])) and (not is_number(BOARDS[i+1])):
+            probs[BOARDS[i]]=50
+    except IndexError:
+        probs[BOARDS[i]]=50
+    i+=1
+
+print(probs)
+
+##choosing a board wisely-randomly
+def notSoRandomBoard():
+    tot = sum(probs.values())
+    target=randint(1,tot)
+    index=0
+    for b,p in probs.items():
+        if index+p >= target:
+            return b
+        else:
+            index+=p
+    
 
 
 def grep():
-    board = (choice(BOARDS) if BOARDS else 'b')
+    board=notSoRandomBoard()
     urls = []
     try:
         pag = choice([""]+[str(i) for i in range(2,11)])
