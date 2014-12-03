@@ -24,7 +24,7 @@ SLIDE_TIME = 0
 ## argument parsing
 args = argv[1:]
 
-if args[0]=="help":
+if "help" in args:
     print(help_msg)
     exit()
 
@@ -45,7 +45,7 @@ except (ValueError, IndexError):
 
 ##
 
-BOARDS=args
+BOARDS = args or ['b']
 
 
 ##determine whether an argument is a number or not
