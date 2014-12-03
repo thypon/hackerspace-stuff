@@ -5,7 +5,7 @@
 ##or fromchan_w help to show help text
 
 from lxml.html import parse
-from urllib.request import urlopen
+from urllib.request import urlopen, urlretrieve
 from random import choice, randint
 from sys import argv
 from subprocess import call
@@ -97,8 +97,14 @@ def grep():
         return ERROR
 
 
+def download(url):
+    path = '/tmp/%s' % url.split('/')[-1]
+    urlretrieve(url, path)
+    return path
+
+
 def show(url):
-    call(DISPLAY + "feh -Z -x " + MONITOR + " -B black " + url + " -D " + str(TIME) + " --cycle-once &", shell=True)
+    call(DISPLAY + "feh -Z -x " + MONITOR + " -B black " + download(url) + " -D " + str(TIME) + " --cycle-once &", shell=True)
 
 try:
     if SLIDE:
