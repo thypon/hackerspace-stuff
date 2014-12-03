@@ -10,6 +10,7 @@ from random import choice, randint
 from sys import argv
 from subprocess import call
 from time import sleep
+from threading import Thread
 
 help_msg="usage:\n\t "+argv[0]+" <display_time> [slide <off_time>] <board1> <chance_to_show1(integer, default is 50 if omitted)> <board2> ...\n\tor:"+argv[0]+" help to show this message :)\n"
 
@@ -103,15 +104,29 @@ def download(url):
     return path
 
 
-def show(url):
-    call(DISPLAY + "feh -Z -x " + MONITOR + " -B black " + download(url) + " -D " + str(TIME) + " --cycle-once &", shell=True)
+def show(path):
+    call(DISPLAY + "feh -Z -x " + MONITOR + " -B black " + path + " -D " + str(TIME) + " --cycle-once", shell=True)
+    call('rm %s' % path, shell=True)
+
+
+FIFO = []
+
+
+class Downloader(Thread):
+    def run(self):
+        while True:
+            if len(FIFO) < 10:
+                FIFO.append(download(grep()))
+
 
 try:
     if SLIDE:
+        Downloader().start()
         while True:
-            show(grep())
-            sleep(TIME + SLIDE_TIME)
+            if FIFO:
+                show(FIFO.pop(0))
+                sleep(SLIDE_TIME)
     else:
-        show(grep())
+        show(download(grep()))
 except KeyboardInterrupt:
     pass
