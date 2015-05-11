@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from sh import espeak
 from time import sleep
 
