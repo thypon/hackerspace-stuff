@@ -93,20 +93,22 @@ def grep():
         pag = choice([""]+[str(i) for i in range(2,11)])
         with urlopen("http://boards.4chan.org/" + board + "/" + pag) as strm:
             urls += parse(strm).xpath("//a[@class='fileThumb']/@href")
-        return "http:" + choice([u for u in urls if not (u.endswith(".webm") or u.endswith(".gif"))])
+        return "http:" + choice([u for u in urls if not (u.endswith(".webm") or u.endswith(".gif") or u.endswith(".pdf"))])
     except:
         return ERROR
 
 
 def download(url):
-    path = '/tmp/%s' % url.split('/')[-1]
-    urlretrieve(url, path)
+    try:
+        path = '/tmp/%s' % url.split('/')[-1]
+        urlretrieve(url, path)
+    except ContentTooShortError:
+        path="/home/poul/images/theman.png"
     return path
-
 
 def show(path):
     call(DISPLAY + "feh -Z -x " + MONITOR + " -B black " + path + " -D " + str(TIME) + " --cycle-once", shell=True)
-    call('rm %s' % path, shell=True)
+    call("rm "+path , shell=True)
 
 
 FIFO = []
