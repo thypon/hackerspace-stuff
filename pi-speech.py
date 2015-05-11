@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+
+from sys import argv
 from sh import espeak
 from time import sleep
 
@@ -15,6 +17,10 @@ def pi_digits():
                                 k+1, (q*(7*k+2)+r*x)//(t*x), x+2)
 
 
-for digit in pi_digits():
-    espeak(digit)
-    sleep(1)
+try:
+    for digit in pi_digits():
+        print(digit)
+        espeak(digit)
+        sleep(float(argv[1]) if argv[1:] else 1)
+except KeyboardInterrupt:
+    pass
